@@ -29,11 +29,17 @@ function check(){
     document.getElementById("result").innerText = "Choose an answer";
     return;
   }
+
   if(ans.value==="no"){
     document.getElementById("result").innerText = "✅ Correct! Be careful with QR codes.";
   } else {
     document.getElementById("result").innerText = "❌ Wrong. Only scan trusted QR codes.";
   }
+
+  // ✅ Redirect to dashboard after quiz
+  setTimeout(() => {
+    window.location.href = "/dashboard";
+  }, 2500);
 }
 </script>
 
