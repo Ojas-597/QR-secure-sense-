@@ -1,87 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin Dashboard - QR Secure Sense</title>
-  <link rel="stylesheet" href="/assets/css/style.css" />
-
+  <meta charset="utf-8" />
+  <title>QR Secure Sense — Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body {
-      background: #f4f6f9;
-      padding: 20px;
-    }
-
-    h1 {
-      color: #1a73e8;
-    }
-
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-
-    table th, table td {
-      padding: 12px;
-      border: 1px solid #ccc;
-      text-align: left;
-    }
-
-    table th {
-      background: #1a73e8;
-      color: white;
-    }
+    body{font-family:Arial;background:#071024;color:#e6eef6;padding:24px}
+    .card{background:#0f1726;padding:16px;border-radius:10px;margin-bottom:12px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+    .small{color:#9aa4b2}
   </style>
 </head>
-
 <body>
+  <h1>Admin Dashboard</h1>
 
-  <h1>📊 Admin Dashboard</h1>
+  <div class="grid">
+    <div class="card">
+      <h3>Total Scans</h3>
+      <div id="totalScans" style="font-size:28px">—</div>
+      <div class="small">Number of simulated scans logged</div>
+    </div>
 
-  <div class="card">
-    <h2>Scan Logs</h2>
+    <div class="card">
+      <h3>Average Fake Risk</h3>
+      <div id="avgRisk" style="font-size:28px">—</div>
+      <div class="small">Average fake risk score (%)</div>
+    </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Log ID</th>
-          <th>Scanned Value</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody id="logsBody"></tbody>
-    </table>
+    <div class="card">
+      <h3>Survey Responses</h3>
+      <div id="surveyCount" style="font-size:28px">—</div>
+      <div class="small">Number of feedback submissions</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <h3>Risk Over Time</h3>
+    <canvas id="scanChart" style="height:240px"></canvas>
   </div>
 
   <script>
-    fetch('/api/logs')
-      .then(r => r.json())
-      .then(data => {
-        const body = document.getElementById('logsBody');
+    async function loadDashboard(){
+      const s = await fetch('/api/stats').then(r=>r.json());
+      document.getElementById('totalScans').textContent = s.scansCount ?? 0;
+      document.getElementById('avgRisk').textContent = (s.avgRisk ?? 0) + ' %';
+      document.getElementById('surveyCount').textContent = s.surveysCount ?? 0;
 
-        if (data.length === 0) {
-          body.innerHTML = "<tr><td colspan='3'>No scans recorded yet.</td></tr>";
-          return;
-        }
+      const scans = await fetch('/api/scans').then(r=>r.json());
+      const labels = scans.map((x,i)=> new Date(x.time).toLocaleTimeString());
+      const values = scans.map(x=>x.risk);
 
-        data.forEach(log => {
-          body.innerHTML += `
-            <tr>
-              <td>${log.id}</td>
-              <td>${log.scan}</td>
-              <td>${log.time}</td>
-            </tr>
-          `;
-        });
+      const ctx = document.getElementById('scanChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets: [{ label: 'Fake Risk', data: values, fill:false }] },
+        options: { scales:{ y:{min:0,max:100} } }
       });
-  </script>
+    }
 
+    loadDashboard();
+  </script>
 </body>
 </html>
