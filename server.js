@@ -25,7 +25,7 @@ app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.ht
 app.get("/fake-malware", (req, res) => res.sendFile(path.join(__dirname, "public", "malware.html")));
 
 app.get("/dashboard", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "TeacherDashboard.html"));
+  res.sendFile(path.join(__dirname, "public", "admin", "TeacherDashboard.html"));
 });
 
 app.get("/phishing", (req, res) => {
