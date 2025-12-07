@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Phishing Email Simulation</title>
+  <style>
+    body{font-family:Arial;background:#000;color:#fff;padding:20px}
+    .mail{background:#111;padding:20px;border-radius:10px}
+    .fakebtn{background:red;color:white;padding:10px;border:none;margin-top:10px}
+    .safe{color:#00ff00;font-weight:bold;margin-top:15px}
+  </style>
+</head>
+<body>
+
+<div class="mail">
+  <h3>⚠ Urgent: Your Account Has Been Locked</h3>
+  <p>Click the button below to verify immediately or lose access.</p>
+  <button class="fakebtn" onclick="showSafe()">VERIFY NOW</button>
+  <div id="msg"></div>
+</div>
+
+<script>
+function showSafe(){
+  document.getElementById("msg").innerHTML =
+    "<div class='safe'>✅ This was a phishing simulation. Never click unknown links.</div>";
+}
+</script>
+
+</body>
+</html>
