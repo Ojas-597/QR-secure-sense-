@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>QR Secure Sense</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>QR Secure Sense</h1>
-  <p>Generate a safe awareness QR code</p>
 
-  <input type="text" id="qrText" placeholder="Enter awareness text or URL" />
-  <button onclick="generateQR()">Generate QR Code</button>
+<h1>QR Secure Sense</h1>
+<p>Cyber Awareness through Fake Malware Simulation</p>
 
-  <div id="qrResult"></div>
+<button onclick="generateQR()">Start Demo</button>
 
-  <script>
-    async function generateQR() {
-      const text = document.getElementById("qrText").value;
+<br><br>
 
-      const res = await fetch("/generate-qr", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
-      });
+<!-- This is where the QR image will appear -->
+<img id="qrImage" style="display:none; width:250px;" />
 
-      const data = await res.json();
-      document.getElementById("qrResult").innerHTML = `<img src="${data.qr}" />`;
-    }
-  </script>
+<script>
+  async function generateQR() {
+    const url = window.location.origin + "/fake-malware";
+
+    const res = await fetch("/generate-qr", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ text: url })
+    });
+
+    const data = await res.json();
+
+    const img = document.getElementById("qrImage");
+    img.src = data.qr;
+    img.style.display = "block";
+  }
+</script>
+
 </body>
 </html>
