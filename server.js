@@ -13,10 +13,12 @@ app.use(express.json());
 const dataDir = path.join(__dirname, "data");
 const scansFile = path.join(dataDir, "scans.json");
 const surveysFile = path.join(dataDir, "surveys.json");
+const quizFile = path.join(dataDir, "quiz.json");
 
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
 if (!fs.existsSync(scansFile)) fs.writeFileSync(scansFile, JSON.stringify([]));
 if (!fs.existsSync(surveysFile)) fs.writeFileSync(surveysFile, JSON.stringify([]));
+if (!fs.existsSync(quizFile)) fs.writeFileSync(quizFile, JSON.stringify([]));
 
 // home, pages
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
