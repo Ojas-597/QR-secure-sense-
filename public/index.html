@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>QR Test</title>
+  <title>QR Secure Sense</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #111; color: #0f0; }
+    button { padding: 12px 20px; font-size: 16px; }
+    img { margin-top: 20px; width: 250px; height: 250px; }
+  </style>
 </head>
 <body>
 
-<h2>QR Generator Test</h2>
+  <h1>QR Secure Sense</h1>
+  <p>Click to generate a malicious-looking QR for awareness</p>
 
-<button onclick="testQR()">Generate QR</button>
+  <button onclick="generateQR()">Generate QR Code</button>
+  <br>
+  <img id="qrImage" />
 
-<br><br>
-<img id="qrImage" width="250" />
+  <script>
+    async function generateQR() {
+      const url = window.location.origin + "/fake-malware";
 
-<script>
-  async function testQR() {
-    try {
       const res = await fetch("/generate-qr", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: "Hello QR" })
+        body: JSON.stringify({ text: url })
       });
 
       const data = await res.json();
       document.getElementById("qrImage").src = data.qr;
-    } catch (err) {
-      alert("QR failed: " + err);
     }
-  }
-</script>
+  </script>
 
 </body>
 </html>
