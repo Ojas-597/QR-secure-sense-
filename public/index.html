@@ -2,11 +2,30 @@
 <html>
 <head>
   <title>QR Secure Sense</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>QR Secure Sense</h1>
-  <p>Cyber Awareness through Fake Malware Simulation</p>
-  <a href="/scan/test123"><button>Start Demo</button></a>
+  <p>Generate a safe awareness QR code</p>
+
+  <input type="text" id="qrText" placeholder="Enter awareness text or URL" />
+  <button onclick="generateQR()">Generate QR Code</button>
+
+  <div id="qrResult"></div>
+
+  <script>
+    async function generateQR() {
+      const text = document.getElementById("qrText").value;
+
+      const res = await fetch("/generate-qr", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+
+      const data = await res.json();
+      document.getElementById("qrResult").innerHTML = `<img src="${data.qr}" />`;
+    }
+  </script>
 </body>
 </html>
