@@ -11,38 +11,69 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
+// Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/admin", basicAuth({ users:{admin:"admin"}, challenge:true }));
+// Admin protection
+app.use(
+  "/admin",
+  basicAuth({
+    users: { admin: "secure123" },
+    challenge: true
+  })
+);
 
-const scanFile = path.join(__dirname,"data","scans.json");
+// Log directory
+const scanFile = path.join(__dirname, "data", "scans.json");
 fs.ensureFileSync(scanFile);
 
-app.get("/", (req,res)=> res.sendFile(path.join(__dirname,"public","index.html")));
-
-app.get("/scan/:id",(req,res)=>{
-  const scanId=req.params.id;
-  res.sendFile(path.join(__dirname,"public","scan.html"));
-  const logs=JSON.parse(fs.readFileSync(scanFile));
-  logs.push({ id:nanoid(6), scan:scanId, time:new Date().toISOString() });
-  fs.writeFileSync(scanFile, JSON.stringify(logs,null,2));
+// Routes
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.get("/admin/dashboard",(req,res)=>{
-  res.sendFile(path.join(__dirname,"public","admin","dashboard.html"));
+// Fake QR scan route
+app.get("/scan/:id", (req, res) => {
+  const scanId = req.params.id;
+  res.sendFile(path.join(__dirname, "public", "scan.html"));
+
+  // Log scan
+  const logs = JSON.parse(fs.readFileSync(scanFile));
+  logs.push({
+    id: nanoid(6),
+    scan: scanId,
+    time: new Date().toISOString()
+  });
+  fs.writeFileSync(scanFile, JSON.stringify(logs, null, 2));
 });
 
-app.get("/api/logs",(req,res)=>{
-  const logs=JSON.parse(fs.readFileSync(scanFile));
+// Admin dashboard
+app.get("/admin/dashboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "admin", "dashboard.html"));
+});
+
+// API to fetch logs
+app.get("/api/logs", (req, res) => {
+  const logs = JSON.parse(fs.readFileSync(scanFile));
   res.json(logs);
 });
 
-app.post("/api/quiz/submit",(req,res)=>{
-  const correct=["B","C","A"];
-  let score=0;
-  req.body.answers.forEach((a,i)=>{ if(a===correct[i]) score++; });
-  res.json({score});
+// Quiz API
+app.post("/api/quiz/submit", (req, res) => {
+  const { answers } = req.body;
+
+  const correct = ["B", "C", "A", "D", "B"];
+  let score = 0;
+
+  answers.forEach((ans, i) => {
+    if (ans === correct[i]) score++;
+  });
+
+  res.json({ score });
 });
 
-app.listen(PORT,()=>console.log("Updated QR Secure Sense running on http://localhost:"+PORT));
+// Start server
+app.listen(PORT, () => {
+  console.log(`QR Secure Sense running at http://localhost:${PORT}`);
+});
