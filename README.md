@@ -59,3 +59,31 @@ Protected login for exhibitors:
 ---
 
 ## 🏗️ Project Structure
+
+QR Secure Sense — Demo Handout
+------------------------------
+Purpose
+- Educate users about QR risks: social engineering via QR codes.
+- Demonstrate how QR codes can point to malicious content and show safe remediation steps.
+
+What visitors will see
+1. A printed QR code on the demo booth (clearly labelled "Educational demo — consent required")
+2. On scan: a consent page → a fake malware simulation (UI-only) showing symptoms
+3. A remediation wizard and short quiz
+4. Anonymous feedback survey
+
+Key messages to communicate
+- Never scan unknown QR codes without verifying context.
+- Do not install apps or follow instructions from suspicious pages.
+- Keep OS and apps updated; contact official IT if you suspect real compromise.
+
+Safety & Ethics
+- Simulation is harmless: no downloads, no commands, no passwords requested.
+- All collected data is anonymous; survey optional.
+- Ask for institutional approval before public demos.
+
+Demo instructions for staff
+- Print QR pointing to: https://<your-demo-url>/fake-malware
+- Add signage: "Educational Demo — Consent Required"
+- If a visitor is concerned their device is actually affected, instruct them to contact campus IT.
+- 
