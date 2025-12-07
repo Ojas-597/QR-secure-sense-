@@ -21,7 +21,18 @@ if (!fs.existsSync(surveysFile)) fs.writeFileSync(surveysFile, JSON.stringify([]
 // home, pages
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 app.get("/fake-malware", (req, res) => res.sendFile(path.join(__dirname, "public", "malware.html")));
-app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
+
+app.get("/dashboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "dashboard.html"));
+});
+
+app.get("/phishing", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "phishing.html"));
+});
+
+app.get("/quiz", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "quiz.html"));
+});
 
 // generate QR (returns dataURL)
 app.post("/generate-qr", async (req, res) => {
