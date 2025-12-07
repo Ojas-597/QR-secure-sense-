@@ -115,6 +115,20 @@ app.get("/api/surveys", (req, res) => {
   }
 });
 
+// ---- Quiz Routes ----
+app.post("/save-quiz", (req, res) => {
+  const { score } = req.body;
+  const data = JSON.parse(fs.readFileSync(quizFile));
+  data.push({ score, time: new Date().toISOString() });
+  fs.writeFileSync(quizFile, JSON.stringify(data, null, 2));
+  res.json({ status: "saved" });
+});
+
+app.get("/api/quiz", (req, res) => {
+  const data = JSON.parse(fs.readFileSync(quizFile));
+  res.json(data);
+});
+
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
