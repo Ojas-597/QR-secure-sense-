@@ -1,79 +1,85 @@
-import express from "express";
-import path from "path";
-import fs from "fs-extra";
-import basicAuth from "express-basic-auth";
-import { nanoid } from "nanoid";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require("express");
+const QRCode = require("qrcode");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(express.static("public"));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
 
-// Admin protection
-app.use(
-  "/admin",
-  basicAuth({
-    users: { admin: "secure123" },
-    challenge: true
-  })
-);
+// --------- Data File Setup ----------
+const dataDir = path.join(__dirname, "data");
+const logFile = path.join(dataDir, "scans.json");
 
-// Log directory
-const scanFile = path.join(__dirname, "data", "scans.json");
-fs.ensureFileSync(scanFile);
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir);
+}
 
-// Routes
+if (!fs.existsSync(logFile)) {
+  fs.writeFileSync(logFile, JSON.stringify([]));
+}
+
+// --------- Routes ----------
+
+// Home page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Fake QR scan route
-app.get("/scan/:id", (req, res) => {
-  const scanId = req.params.id;
-  res.sendFile(path.join(__dirname, "public", "scan.html"));
-
-  // Log scan
-  const logs = JSON.parse(fs.readFileSync(scanFile));
-  logs.push({
-    id: nanoid(6),
-    scan: scanId,
-    time: new Date().toISOString()
-  });
-  fs.writeFileSync(scanFile, JSON.stringify(logs, null, 2));
+// Fake malware simulation page
+app.get("/fake-malware", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "malware.html"));
 });
 
-// Admin dashboard
-app.get("/admin/dashboard", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "admin", "dashboard.html"));
+// Dashboard page
+app.get("/dashboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "dashboard.html"));
 });
 
-// API to fetch logs
-app.get("/api/logs", (req, res) => {
-  const logs = JSON.parse(fs.readFileSync(scanFile));
-  res.json(logs);
+// Generate QR code
+app.post("/generate-qr", async (req, res) => {
+  try {
+    const { text } = req.body;
+    const qr = await QRCode.toDataURL(text);
+    res.json({ qr });
+  } catch (err) {
+    res.status(500).json({ error: "QR Code generation failed" });
+  }
 });
 
-// Quiz API
-app.post("/api/quiz/submit", (req, res) => {
-  const { answers } = req.body;
+// Log fake scan data
+app.post("/log-scan", (req, res) => {
+  try {
+    const data = JSON.parse(fs.readFileSync(logFile));
+    const fakeRisk = Math.floor(Math.random() * 100) + 1;
 
-  const correct = ["B", "C", "A", "D", "B"];
-  let score = 0;
+    data.push({
+      time: new Date().toISOString(),
+      risk: fakeRisk
+    });
 
-  answers.forEach((ans, i) => {
-    if (ans === correct[i]) score++;
-  });
+    fs.writeFileSync(logFile, JSON.stringify(data, null, 2));
+    res.json({ status: "scan logged" });
+  } catch (err) {
+    res.status(500).json({ error: "Logging failed" });
+  }
+});
 
-  res.json({ score });
+// API for chart data
+app.get("/api/scans", (req, res) => {
+  try {
+    const data = JSON.parse(fs.readFileSync(logFile));
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load scan data" });
+  }
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`QR Secure Sense running at http://localhost:${PORT}`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
+
