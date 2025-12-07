@@ -45,3 +45,51 @@ button:hover {
   color: #065f46;
   font-weight: bold;
   }
+/* ----- Teacher Dashboard Styling ----- */
+
+.dashboard-header {
+  font-size: 26px;
+  font-weight: bold;
+  color: #4c1d95;
+  margin-bottom: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 32px;
+  color: #5b21b6;
+}
+
+.stat-card p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.dashboard-section {
+  margin-top: 30px;
+  background: rgba(255,255,255,0.75);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+canvas {
+  background: rgba(255,255,255,0.6);
+  border-radius: 12px;
+  padding: 10px;
+}
