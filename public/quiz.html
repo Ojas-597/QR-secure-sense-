@@ -17,29 +17,42 @@
   <label><input type="radio" name="q1" value="yes"> Yes</label>
   <label><input type="radio" name="q1" value="no"> No</label>
 
-  <br><br>
+  <p>2. Should you check the URL after scanning a QR?</p>
+  <label><input type="radio" name="q2" value="yes"> Yes</label>
+  <label><input type="radio" name="q2" value="no"> No</label>
+
+  <p>3. Is it safe to enter passwords on QR-opened sites?</p>
+  <label><input type="radio" name="q3" value="yes"> Yes</label>
+  <label><input type="radio" name="q3" value="no"> No</label>
+
+  <br>
   <button onclick="check()">Submit</button>
   <div id="result"></div>
 </div>
 
 <script>
 function check(){
-  const ans = document.querySelector('input[name="q1"]:checked');
-  if(!ans){
-    document.getElementById("result").innerText = "Choose an answer";
+  let score = 0;
+
+  const q1 = document.querySelector('input[name="q1"]:checked');
+  const q2 = document.querySelector('input[name="q2"]:checked');
+  const q3 = document.querySelector('input[name="q3"]:checked');
+
+  if(!q1 || !q2 || !q3){
+    document.getElementById("result").innerText = "Please answer all questions!";
     return;
   }
 
-  if(ans.value==="no"){
-    document.getElementById("result").innerText = "✅ Correct! Be careful with QR codes.";
-  } else {
-    document.getElementById("result").innerText = "❌ Wrong. Only scan trusted QR codes.";
-  }
+  if(q1.value === "no") score++;
+  if(q2.value === "yes") score++;
+  if(q3.value === "no") score++;
 
-  // ✅ Redirect to dashboard after quiz
+  document.getElementById("result").innerText = `✅ Your score: ${score}/3`;
+
+  // redirect to dashboard
   setTimeout(() => {
     window.location.href = "/dashboard";
-  }, 2500);
+  }, 3000);
 }
 </script>
 
