@@ -1,4 +1,18 @@
-<h1>Your Score: <span id='score'></span></h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Result</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<h1>Your Score:</h1>
+<h2 id="score"></h2>
+
 <script>
-document.getElementById('score').innerText=new URLSearchParams(location.search).get('score');
+  const params = new URLSearchParams(window.location.search);
+  document.getElementById("score").innerText = params.get("score");
 </script>
+
+</body>
+</html>
