@@ -1,15 +1,41 @@
-<h1>Awareness Quiz</h1>
-<form id='quizForm'>
-<p>1. What is QR phishing called?</p>
-<input type='radio' name='q1' value='A'>A<br>
-<input type='radio' name='q1' value='B'>B (Correct)<br>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Awareness Quiz</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="assets/js/quiz.js" defer></script>
+</head>
+<body>
 
-<p>2. What should you avoid?</p>
-<input type='radio' name='q2' value='C'>Unknown Links (Correct)<br>
+<h1>Cyber Awareness Quiz</h1>
 
-<p>3. Best safety action?</p>
-<input type='radio' name='q3' value='A'>Check URL (Correct)<br>
+<form id="quizForm">
+  <div>
+    <p>1. What is QR phishing called?</p>
+    <input type="radio" name="q1" value="A"> A: Scanware<br>
+    <input type="radio" name="q1" value="B"> B: Quishing<br>
+    <input type="radio" name="q1" value="C"> C: Smishing<br>
+    <input type="radio" name="q1" value="D"> D: Flooding<br>
+  </div>
 
-<button type='submit'>Submit</button>
+  <div>
+    <p>2. What should you avoid clicking?</p>
+    <input type="radio" name="q2" value="A"> A: Official URLs<br>
+    <input type="radio" name="q2" value="B"> B: HTTPS links<br>
+    <input type="radio" name="q2" value="C"> C: Unknown shortened links<br>
+    <input type="radio" name="q2" value="D"> D: Verified sites<br>
+  </div>
+
+  <div>
+    <p>3. What is the safest action?</p>
+    <input type="radio" name="q3" value="A"> A: Check URL before opening<br>
+    <input type="radio" name="q3" value="B"> B: Ignore warnings<br>
+    <input type="radio" name="q3" value="C"> C: Install from unknown sources<br>
+    <input type="radio" name="q3" value="D"> D: Disable antivirus<br>
+  </div>
+
+  <button type="submit">Submit Quiz</button>
 </form>
-<script src='assets/js/quiz.js'></script>
+
+</body>
+  </html>
