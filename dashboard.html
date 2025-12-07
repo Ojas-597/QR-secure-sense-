@@ -1,0 +1,1 @@
+<h1>Dashboard</h1><table id='logs'></table><script>fetch('/api/logs').then(r=>r.json()).then(d=>{let t=document.getElementById('logs');d.forEach(l=>{t.innerHTML+=`<tr><td>${l.id}</td><td>${l.scan}</td><td>${l.time}</td></tr>`})})</script>
