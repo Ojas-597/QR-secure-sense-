@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Awareness Quiz</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <script src="assets/js/quiz.js" defer></script>
+  <title>QR Safety Quiz</title>
+  <style>
+    body{background:#071024;color:#fff;font-family:Arial;padding:20px}
+    .card{background:#0f1726;padding:20px;border-radius:10px}
+    button{margin-top:10px;padding:8px 12px;background:#22c55e;border:none;color:black}
+  </style>
 </head>
 <body>
 
-<h1>Cyber Awareness Quiz</h1>
+<div class="card">
+  <h2>QR Safety Quiz</h2>
 
-<form id="quizForm">
-  <div>
-    <p>1. What is QR phishing called?</p>
-    <input type="radio" name="q1" value="A"> A: Scanware<br>
-    <input type="radio" name="q1" value="B"> B: Quishing<br>
-    <input type="radio" name="q1" value="C"> C: Smishing<br>
-    <input type="radio" name="q1" value="D"> D: Flooding<br>
-  </div>
+  <p>1. Should you scan unknown QR codes?</p>
+  <label><input type="radio" name="q1" value="yes"> Yes</label>
+  <label><input type="radio" name="q1" value="no"> No</label>
 
-  <div>
-    <p>2. What should you avoid clicking?</p>
-    <input type="radio" name="q2" value="A"> A: Official URLs<br>
-    <input type="radio" name="q2" value="B"> B: HTTPS links<br>
-    <input type="radio" name="q2" value="C"> C: Unknown shortened links<br>
-    <input type="radio" name="q2" value="D"> D: Verified sites<br>
-  </div>
+  <br><br>
+  <button onclick="check()">Submit</button>
+  <div id="result"></div>
+</div>
 
-  <div>
-    <p>3. What is the safest action?</p>
-    <input type="radio" name="q3" value="A"> A: Check URL before opening<br>
-    <input type="radio" name="q3" value="B"> B: Ignore warnings<br>
-    <input type="radio" name="q3" value="C"> C: Install from unknown sources<br>
-    <input type="radio" name="q3" value="D"> D: Disable antivirus<br>
-  </div>
-
-  <button type="submit">Submit Quiz</button>
-</form>
+<script>
+function check(){
+  const ans = document.querySelector('input[name="q1"]:checked');
+  if(!ans){
+    document.getElementById("result").innerText = "Choose an answer";
+    return;
+  }
+  if(ans.value==="no"){
+    document.getElementById("result").innerText = "✅ Correct! Be careful with QR codes.";
+  } else {
+    document.getElementById("result").innerText = "❌ Wrong. Only scan trusted QR codes.";
+  }
+}
+</script>
 
 </body>
-  </html>
+</html>
