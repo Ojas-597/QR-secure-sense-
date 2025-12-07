@@ -1,7 +1,7 @@
 {
   "name": "qr-secure-sense",
-  "version": "2.0.0",
-  "description": "QR Secure Sense - Updated Professional Version",
+  "version": "1.0.0",
+  "description": "QR Secure Sense - Fake malware & awareness demo (safe)",
   "type": "module",
   "main": "server.js",
   "scripts": {
