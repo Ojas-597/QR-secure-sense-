@@ -8,44 +8,12 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/assets/style.css">
 </head>
-  
+
 <body>
-  <script>
-// ✅ Chart.js check
-if (!window.Chart) {
-  console.warn("Chart.js not loaded");
-}
-
-async function loadDashboard() {
-  const res = await fetch('/api/stats');
-  const data = await res.json();
-
-  document.getElementById("scanCount").innerText = data.scansCount;
-  document.getElementById("surveyCount").innerText = data.surveysCount;
-
-  const labels = data.recentScans.map((s,i)=>"Scan "+(i+1));
-  const values = data.recentScans.map(s=>s.risk);
-
-  const ctx = document.getElementById('riskChart').getContext('2d');
-  new Chart(ctx, {
-    type:'line',
-    data:{ labels, datasets:[{ label:'Risk %', data: values }] }
-  });
-
-  const list = document.getElementById("scanList");
-  list.innerHTML = "";
-  data.recentScans.forEach(s=>{
-    list.innerHTML += `<div>${s.time} — Risk: ${s.risk}%</div>`;
-  });
-}
-
-loadDashboard();
-    </script>
 
 <h1 class="dashboard-header">Teacher Dashboard</h1>
 
 <div class="dashboard-grid">
-
   <div class="stat-card">
     <h3 id="scanCount">...</h3>
     <p>Total QR Scans</p>
@@ -55,7 +23,6 @@ loadDashboard();
     <h3 id="surveyCount">...</h3>
     <p>Survey Responses</p>
   </div>
-
 </div>
 
 <div class="dashboard-section">
@@ -69,30 +36,38 @@ loadDashboard();
 </div>
 
 <script>
-async function loadDashboard() {
-  const res = await fetch('/api/stats');
-  const data = await res.json();
+  // ✅ Check if Chart.js loaded
+  if (!window.Chart) {
+    console.warn("Chart.js not loaded");
+  }
 
-  document.getElementById("scanCount").innerText = data.scansCount;
-  document.getElementById("surveyCount").innerText = data.surveysCount;
+  async function loadDashboard() {
+    const res = await fetch('/api/stats');
+    const data = await res.json();
 
-  const labels = data.recentScans.map((s,i)=>"Scan "+(i+1));
-  const values = data.recentScans.map(s=>s.risk);
+    document.getElementById("scanCount").innerText = data.scansCount;
+    document.getElementById("surveyCount").innerText = data.surveysCount;
 
-  const ctx = document.getElementById('riskChart').getContext('2d');
-  new Chart(ctx, {
-    type:'line',
-    data:{ labels, datasets:[{ label:'Risk %', data: values }] }
-  });
+    const labels = data.recentScans.map((s, i) => "Scan " + (i + 1));
+    const values = data.recentScans.map(s => s.risk);
 
-  const list = document.getElementById("scanList");
-  list.innerHTML = "";
-  data.recentScans.forEach(s=>{
-    list.innerHTML += `<div>${s.time} — Risk: ${s.risk}%</div>`;
-  });
-}
+    const ctx = document.getElementById('riskChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{ label: 'Risk %', data: values }]
+      }
+    });
 
-loadDashboard();
+    const list = document.getElementById("scanList");
+    list.innerHTML = "";
+    data.recentScans.forEach(s => {
+      list.innerHTML += `<div>${s.time} — Risk: ${s.risk}%</div>`;
+    });
+  }
+
+  loadDashboard();
 </script>
 
 </body>
