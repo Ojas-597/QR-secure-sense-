@@ -1,0 +1,16 @@
+{
+  "name": "qr-secure-sense",
+  "version": "2.0.0",
+  "description": "QR Secure Sense - Updated Professional Version",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "nanoid": "^4.0.0",
+    "express-basic-auth": "^1.2.1",
+    "fs-extra": "^11.2.0"
+  }
+}
