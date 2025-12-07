@@ -4,24 +4,33 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>Teacher Dashboard — QR Secure Sense</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
 
-<h1>Teacher Dashboard</h1>
+<h1 class="dashboard-header">Teacher Dashboard</h1>
 
-<div class="card">
-  <h3>Total QR Scans</h3>
-  <div id="scanCount">Loading...</div>
+<div class="dashboard-grid">
+
+  <div class="stat-card">
+    <h3 id="scanCount">...</h3>
+    <p>Total QR Scans</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="surveyCount">...</h3>
+    <p>Survey Responses</p>
+  </div>
+
 </div>
 
-<div class="card">
-  <h3>Risk Level Chart</h3>
+<div class="dashboard-section">
+  <h2>Risk Level Chart</h2>
   <canvas id="riskChart"></canvas>
 </div>
 
-<div class="card">
-  <h3>Recent Scans</h3>
+<div class="dashboard-section">
+  <h2>Recent Scans</h2>
   <div id="scanList"></div>
 </div>
 
@@ -31,6 +40,7 @@ async function loadDashboard() {
   const data = await res.json();
 
   document.getElementById("scanCount").innerText = data.scansCount;
+  document.getElementById("surveyCount").innerText = data.surveysCount;
 
   const labels = data.recentScans.map((s,i)=>"Scan "+(i+1));
   const values = data.recentScans.map(s=>s.risk);
@@ -38,10 +48,11 @@ async function loadDashboard() {
   const ctx = document.getElementById('riskChart').getContext('2d');
   new Chart(ctx, {
     type:'line',
-    data:{labels, datasets:[{label:'Risk %', data:values}]}
+    data:{ labels, datasets:[{ label:'Risk %', data: values }] }
   });
 
   const list = document.getElementById("scanList");
+  list.innerHTML = "";
   data.recentScans.forEach(s=>{
     list.innerHTML += `<div>${s.time} — Risk: ${s.risk}%</div>`;
   });
