@@ -1,28 +1,87 @@
 <!DOCTYPE html>
-<html><head><title>Dashboard</title>
-<style>
-body{background:#f4f6f9;font-family:Arial;padding:20px;}
-h1{color:#1a73e8;}
-.card{background:white;padding:20px;border-radius:10px;box-shadow:0 2px 8px #0002;}
-table{width:100%;border-collapse:collapse;margin-top:15px;}
-th,td{border:1px solid #ccc;padding:10px;}
-th{background:#1a73e8;color:white;}
-</style>
+<html>
+<head>
+  <title>Admin Dashboard - QR Secure Sense</title>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <style>
+    body {
+      background: #f4f6f9;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #1a73e8;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    table th, table td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    table th {
+      background: #1a73e8;
+      color: white;
+    }
+  </style>
 </head>
+
 <body>
-<h1>📊 Admin Dashboard</h1>
-<div class='card'>
-<h2>Scan Logs</h2>
-<table><thead><tr><th>ID</th><th>Scan</th><th>Time</th></tr></thead>
-<tbody id='logsBody'></tbody></table>
-</div>
-<script>
-fetch('/api/logs').then(r=>r.json()).then(data=>{
- let body=document.getElementById('logsBody');
- if(data.length===0){ body.innerHTML='<tr><td colspan=3>No scans yet</td></tr>'; return; }
- data.forEach(l=>{
-  body.innerHTML+=`<tr><td>${l.id}</td><td>${l.scan}</td><td>${l.time}</td></tr>`;
- });
-});
-</script>
-</body></html>
+
+  <h1>📊 Admin Dashboard</h1>
+
+  <div class="card">
+    <h2>Scan Logs</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Log ID</th>
+          <th>Scanned Value</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="logsBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    fetch('/api/logs')
+      .then(r => r.json())
+      .then(data => {
+        const body = document.getElementById('logsBody');
+
+        if (data.length === 0) {
+          body.innerHTML = "<tr><td colspan='3'>No scans recorded yet.</td></tr>";
+          return;
+        }
+
+        data.forEach(log => {
+          body.innerHTML += `
+            <tr>
+              <td>${log.id}</td>
+              <td>${log.scan}</td>
+              <td>${log.time}</td>
+            </tr>
+          `;
+        });
+      });
+  </script>
+
+</body>
+ </html>
