@@ -1,30 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <title>Phishing Email Simulation</title>
- <link rel="stylesheet" href="../assets/style.css">
+  <meta charset="utf-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>QR Secure Sense — Phishing Simulation</title>
+
+  <link rel="stylesheet" href="/assets/style.css">
+
   <style>
-    body{font-family:Arial;background:#000;color:#fff;padding:20px}
-    .mail{background:#111;padding:20px;border-radius:10px}
-    .fakebtn{background:red;color:white;padding:10px;border:none;margin-top:10px}
-    .safe{color:#00ff00;font-weight:bold;margin-top:15px}
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .mail {
+      background: #020617;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+
+    .fakebtn {
+      background: #dc2626;
+      color: white;
+      padding: 12px 22px;
+      border: none;
+      margin-top: 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .safe {
+      color: #22c55e;
+      font-weight: bold;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .qr-box {
+      margin-top: 20px;
+    }
+
+    img {
+      width: 220px;
+      height: 220px;
+      border: 4px solid white;
+      border-radius: 12px;
+      background: white;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #cbd5f5;
+    }
   </style>
 </head>
+
 <body>
 
-<div class="mail">
-  <h3>⚠ Urgent: Your Account Has Been Locked</h3>
-  <p>Click the button below to verify immediately or lose access.</p>
-  <button class="fakebtn" onclick="showSafe()">VERIFY NOW</button>
-  <div id="msg"></div>
-</div>
+  <h1>⚠ Fake Phishing Email Simulation</h1>
+
+  <div class="mail">
+    <h3>🔒 Security Alert: Your Account Is At Risk</h3>
+    <p>
+      We detected suspicious activity on your account.<br>
+      Please verify immediately to avoid account suspension.
+    </p>
+
+    <button class="fakebtn" onclick="showSafe()">VERIFY NOW</button>
+
+    <div id="msg"></div>
+
+    <div class="qr-box">
+      <h4>Generate Demo QR Code</h4>
+      <button class="fakebtn" onclick="generateQR()">Generate QR</button>
+      <br><br>
+      <img id="qrImage" />
+    </div>
+
+    <div class="info">
+      This is for cyber awareness only. No real data is collected.
+    </div>
+  </div>
 
 <script>
-function showSafe(){
-  document.getElementById("msg").innerHTML =
-    "<div class='safe'>✅ This was a phishing simulation. Never click unknown links.</div>";
-}
+  function showSafe() {
+    document.getElementById("msg").innerHTML =
+      "<div class='safe'>✅ This was a phishing simulation. Real attackers use similar tricks!</div>";
+  }
+
+  async function generateQR() {
+    // ✅ Always works for localhost + WiFi network
+    const url = window.location.origin + "/fake-malware";
+
+    const res = await fetch("/generate-qr", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: url })
+    });
+
+    const data = await res.json();
+    document.getElementById("qrImage").src = data.qr;
+  }
 </script>
 
 </body>
