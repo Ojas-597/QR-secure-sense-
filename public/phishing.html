@@ -20,9 +20,11 @@
   <img id="qrImage" alt="QR will appear here" />
 
 <script>
-async function generateQR() {
-  try {
-    const liveUrl = window.location.origin + "/fake-malware";
+  async function generateQR() {
+    const liveUrl = "http://192.168.30.23:3000/fake-malware";
+
+    // ✅ Add this line here
+    console.log(liveUrl);
 
     const res = await fetch("/generate-qr", {
       method: "POST",
@@ -31,18 +33,8 @@ async function generateQR() {
     });
 
     const data = await res.json();
-
-    if (!data.qr) {
-      alert("QR not generated. Check server.");
-      return;
-    }
-
     document.getElementById("qrImage").src = data.qr;
-  } catch (e) {
-    alert("QR generation failed");
-    console.error(e);
   }
-}
 </script>
 
 </body>
