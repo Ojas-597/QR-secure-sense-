@@ -134,5 +134,5 @@ const HOST = "0.0.0.0";  // Allows access from other devices
 app.listen(PORT, HOST, () => {
   console.log(`✅ Server running on:`);
   console.log(`➡ http://localhost:${PORT}`);
-  console.log(`➡ http://192.168.30.23:${PORT}`);
+  
 });
