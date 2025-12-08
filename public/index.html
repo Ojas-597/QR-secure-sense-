@@ -21,8 +21,7 @@
 
   <script>
     async function generateQR() {
-      const url = window.location.origin + "/fake-malware";
-
+      const url = window.location.origin + "/QR-secure-sense-/malware.html";
       const res = await fetch("/generate-qr", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
