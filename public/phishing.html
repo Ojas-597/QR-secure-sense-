@@ -19,17 +19,20 @@
   <br>
   <img id="qrImage" alt="QR will appear here" />
 
+<!-- Add this library -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 <script>
   function generateQR() {
-    const liveUrl = window.location.origin + "/fake-malware";
+    const liveUrl = "https://ojas-597.github.io/QR-secure-sense-/fake-malware.html";
 
     QRCode.toDataURL(liveUrl, function (err, src) {
       if (err) {
-        alert("QR generation failed");
+        alert("Failed to generate QR");
+        console.log(err);
         return;
       }
+
       document.getElementById("qrImage").src = src;
     });
   }
