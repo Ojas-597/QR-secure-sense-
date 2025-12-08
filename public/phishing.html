@@ -99,7 +99,6 @@
 async function generateQR() {
   // <-- set this to your deployed app URL (not localhost or 192.168)
   const url = "https://qr-secure-sense.onrender.com/fake-malware";
-
   const res = await fetch("/generate-qr", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
