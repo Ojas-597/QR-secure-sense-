@@ -96,14 +96,18 @@
       "<div class='safe'>✅ This was a phishing simulation. Real attackers use similar tricks!</div>";
   }
 
-  async function generateQR() {
-  const url = "http://192.168.30.23:3000/fake-malware";
+async function generateQR() {
+  const url = "http://localhost:3000/fake-malware";
 
   const res = await fetch("/generate-qr", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text: url })
   });
+
+  const data = await res.json();
+  document.getElementById("qrImage").src = data.qr;
+}
 
   const data = await res.json();
   document.getElementById("qrImage").src = data.qr;
