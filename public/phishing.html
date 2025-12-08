@@ -92,22 +92,18 @@
 
 <script>
 async function generateQR() {
-  // ✅ This makes the link auto-detect your live Render URL
-  const url = window.location.origin + "/fake-malware";
+  // ✅ Always make QR point to your LIVE server
+  const liveUrl = window.location.origin + "/fake-malware";
 
   const res = await fetch("/generate-qr", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: url })
+    body: JSON.stringify({ text: liveUrl })
   });
 
   const data = await res.json();
-
-  // ✅ Show the generated QR image
   document.getElementById("qrImage").src = data.qr;
 }
-
 </script>
-
 </body>
 </html>
