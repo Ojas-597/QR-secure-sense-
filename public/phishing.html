@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <title>QR Secure Sense</title>
+
   <link rel="stylesheet" href="/assets/style.css">
+
   <style>
-    body { font-family: Arial; text-align: center; background: #111; color: #0f0; }
-    button { padding: 12px 20px; font-size: 16px; }
-    img { margin-top: 20px; width: 250px; height: 250px; border: 2px solid #0f0; }
+    body { 
+      font-family: Arial; 
+      text-align: center; 
+      background: #111; 
+      color: #0f0; 
+    }
+    button { 
+      padding: 12px 20px; 
+      font-size: 16px; 
+      cursor: pointer;
+    }
+    img { 
+      margin-top: 20px; 
+      width: 250px; 
+      height: 250px; 
+      border: 2px solid #0f0; 
+      background: #fff;
+    }
   </style>
 </head>
 <body>
@@ -19,24 +37,33 @@
   <br>
   <img id="qrImage" alt="QR will appear here" />
 
-<!-- Add this library -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    async function generateQR() {
+      const liveUrl = window.location.origin + "/fake-malware";
 
-<script>
-  function generateQR() {
-    const liveUrl = "https://ojas-597.github.io/QR-secure-sense-/fake-malware.html";
+      console.log(liveUrl); // ✅ logs the correct URL
 
-    QRCode.toDataURL(liveUrl, function (err, src) {
-      if (err) {
-        alert("Failed to generate QR");
-        console.log(err);
-        return;
+      try {
+        const res = await fetch("/generate-qr", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: liveUrl })
+        });
+
+        const data = await res.json();
+
+        if (!data.qr) {
+          alert("QR generation failed");
+          return;
+        }
+
+        document.getElementById("qrImage").src = data.qr;
+      } catch (err) {
+        console.error("QR Error:", err);
+        alert("Server not responding. Is server.js running?");
       }
-
-      document.getElementById("qrImage").src = src;
-    });
-  }
-</script>
+    }
+  </script>
 
 </body>
 </html>
