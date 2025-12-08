@@ -129,6 +129,7 @@ const data = JSON.parse(fs.readFileSync(quizFile));
 res.json(data);
 });
 
+const HOST ='0.0.0.0';
 app.listen(PORT, () => {
 console.log(✅ Server running on http://localhost:${PORT});
 });
