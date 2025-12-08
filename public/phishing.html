@@ -97,16 +97,16 @@
   }
 
   async function generateQR() {
-    // ✅ Always works for localhost + WiFi network
-    const url = "https://xyz123.ngrok.io/fake-malware";
-    const res = await fetch("/generate-qr", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: url })
-    });
+  const url = "http://192.168.30.23:3000/fake-malware";
 
-    const data = await res.json();
-    document.getElementById("qrImage").src = data.qr;
+  const res = await fetch("/generate-qr", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: url })
+  });
+
+  const data = await res.json();
+  document.getElementById("qrImage").src = data.qr;
   }
 </script>
 
