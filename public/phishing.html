@@ -91,14 +91,10 @@
   </div>
 
 <script>
-  function showSafe() {
-    document.getElementById("msg").innerHTML =
-      "<div class='safe'>✅ This was a phishing simulation. Real attackers use similar tricks!</div>";
-  }
-
 async function generateQR() {
-  // <-- set this to your deployed app URL (not localhost or 192.168)
-  const url = "https://qr-secure-sense.onrender.com/fake-malware";
+  // ✅ This makes the link auto-detect your live Render URL
+  const url = window.location.origin + "/fake-malware";
+
   const res = await fetch("/generate-qr", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -106,6 +102,8 @@ async function generateQR() {
   });
 
   const data = await res.json();
+
+  // ✅ Show the generated QR image
   document.getElementById("qrImage").src = data.qr;
 }
 
