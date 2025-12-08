@@ -21,8 +21,7 @@
 
   <script>
     async function generateQR() {
-  const url = "http://192.168.30.23:3000/fake-malware";
-
+  const url = "window.location.origin + "/fake-malware";
   const res = await fetch("/generate-qr", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
