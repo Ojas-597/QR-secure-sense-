@@ -20,11 +20,17 @@
   <img id="qrImage" />
 
   <script>
-    function generateQR() {
-      const url = "http://192.168.30.23:3000/fake-malware";
-      document.getElementById("qrImage").src =
-        "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" +
-        encodeURIComponent(url);
+    async function generateQR() {
+  const url = "http://192.168.30.23:3000/fake-malware";
+
+  const res = await fetch("/generate-qr", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: url })
+  });
+
+  const data = await res.json();
+  document.getElementById("qrImage").src = data.qr;
     }
   </script>
 
