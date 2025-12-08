@@ -98,8 +98,7 @@
 
   async function generateQR() {
     // ✅ Always works for localhost + WiFi network
-    const url = window.location.origin + "/fake-malware";
-
+    const url = "https://xyz123.ngrok.io/fake-malware";
     const res = await fetch("/generate-qr", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
