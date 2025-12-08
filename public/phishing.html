@@ -97,7 +97,8 @@
   }
 
 async function generateQR() {
-  const url = "http://localhost:3000/fake-malware";
+  // <-- set this to your deployed app URL (not localhost or 192.168)
+  const url = "https://qr-secure-sense.onrender.com/fake-malware";
 
   const res = await fetch("/generate-qr", {
     method: "POST",
@@ -109,9 +110,6 @@ async function generateQR() {
   document.getElementById("qrImage").src = data.qr;
 }
 
-  const data = await res.json();
-  document.getElementById("qrImage").src = data.qr;
-  }
 </script>
 
 </body>
