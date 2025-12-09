@@ -71,6 +71,33 @@ app.post("/generate-qr", async (req, res) => {
   }
 });
 
+// URL Malware Check API (REAL SCAN)
+app.post("/check-url", async (req, res) => {
+  const { url } = req.body;
+  const API_KEY = "PASTE_YOUR_VIRUSTOTAL_KEY";
+
+  try {
+    const formData = new URLSearchParams();
+    formData.append("url", url);
+
+    const fetch = (await import("node-fetch")).default;
+
+    const response = await fetch("https://www.virustotal.com/api/v3/urls", {
+      method: "POST",
+      headers: {
+        "x-apikey": API_KEY,
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formData
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Scan failed" });
+  }
+});
+
 // ---- Scan Logging ----
 app.post("/log-scan", (req, res) => {
   try {
