@@ -74,7 +74,7 @@ app.post("/generate-qr", async (req, res) => {
 // URL Malware Check API (REAL SCAN)
 app.post("/check-url", async (req, res) => {
   const { url } = req.body;
-  const API_KEY = "PASTE_YOUR_VIRUSTOTAL_KEY";
+  const API_KEY = "0a8d3d85f980e0bc994320aaa453fa1ff46faae8f477b7c0eea448e2cd0e30ea";
 
   try {
     const formData = new URLSearchParams();
